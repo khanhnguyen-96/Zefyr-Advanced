@@ -70,7 +70,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       _updateSizeAndTransform();
       _textInputConnection.setEditingState(_lastKnownRemoteTextEditingValue);
 
-      _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
+      // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
     _textInputConnection.show();
   }
