@@ -677,7 +677,7 @@ class RenderEditableTextLine extends RenderEditableBox {
           extentOffset: node.documentOffset + node.length,
         ),
       ));
-      final paint = Paint()..color = Colors.red.withOpacity(0.25);
+      final paint = Paint()..color = Colors.transparent;
       try {
         boxes.forEach((box) {
           context.canvas.drawRect(box.toRect().shift(effectiveOffset), paint);
