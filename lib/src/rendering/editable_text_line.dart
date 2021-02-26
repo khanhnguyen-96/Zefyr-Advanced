@@ -677,12 +677,10 @@ class RenderEditableTextLine extends RenderEditableBox {
           extentOffset: node.documentOffset + node.length,
         ),
       ));
-      final paint = Paint()..color = Colors.transparent;
-      try {
+      if (boxes?.isNotEmpty ?? false) {
+        final paint = Paint()..color = Colors.transparent;
         context.canvas
             .drawRect(boxes.last.toRect().shift(effectiveOffset), paint);
-      } catch (e) {
-        print(e);
       }
     }
   }
