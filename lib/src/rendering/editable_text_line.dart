@@ -653,12 +653,39 @@ class RenderEditableTextLine extends RenderEditableBox {
       }
 
       context.paintChild(body, effectiveOffset);
+      _createTransparentSelectionForLastLine(context, effectiveOffset);
 
       if (hasFocus &&
           _cursorController.showCursor.value &&
           containsCursor &&
           _cursorController.style.paintAboveText) {
         _paintCursor(context, effectiveOffset);
+      }
+    }
+  }
+
+  /// This function creates a transparent selection for the last line so that it
+  /// won't be clipped when not focused.
+  /// This is only a workaround.
+  void _createTransparentSelectionForLastLine(
+      PaintingContext context, Offset effectiveOffset) {
+    if (node.isLast) {
+      final boxes = body.getBoxesForSelection(localSelection(
+        node,
+        TextSelection(
+          baseOffset: node.documentOffset,
+          extentOffset: node.documentOffset + node.length,
+        ),
+      ));
+      final paint = Paint()..color = Colors.red.withOpacity(0.25);
+      try {
+        boxes.forEach((box) {
+          context.canvas.drawRect(box.toRect().shift(effectiveOffset), paint);
+        });
+        // context.canvas
+        //     .drawRect(boxes.last.toRect().shift(effectiveOffset), paint);
+      } catch (e) {
+        print(e);
       }
     }
   }
