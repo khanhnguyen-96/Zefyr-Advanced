@@ -368,7 +368,13 @@ class RenderEditor extends RenderEditableContainerBox
       start: localWord.start + nodeOffset,
       end: localWord.end + nodeOffset,
     );
-    if (position.offset - word.start <= 1) {
+    if ((word.start - word.end).abs() == 1) {
+      _handleSelectionChange(
+        TextSelection.collapsed(
+            offset: position.offset, affinity: TextAffinity.downstream),
+        cause,
+      );
+    } else if (position.offset - word.start <= 1) {
       _handleSelectionChange(
         TextSelection.collapsed(
             offset: word.start, affinity: TextAffinity.downstream),
