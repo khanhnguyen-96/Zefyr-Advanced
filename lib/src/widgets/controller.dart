@@ -65,11 +65,23 @@ class ZefyrController extends ChangeNotifier {
       delta = document.replace(index, length, data);
       // If the delta is an insert operation and we have toggled
       // some styles, then apply those styles to the inserted text.
-      if (delta != null &&
+      var shouldRetainDelta = delta != null &&
           toggledStyles.isNotEmpty &&
           delta.isNotEmpty &&
-          delta.length <= 2 && // covers single insert and a retain+insert
-          delta.last.isInsert) {
+          delta.length <= 2 &&
+          delta.last.isInsert;
+      if (shouldRetainDelta &&
+          toggledStyles.isNotEmpty &&
+          delta.length == 2 &&
+          delta.last.data == '\n') {
+        // if all attributes are inline, shouldRetainDelta should be false
+        final anyAttributeNotInline =
+            toggledStyles.values.any((attr) => !attr.isInline);
+        if (!anyAttributeNotInline) {
+          shouldRetainDelta = false;
+        }
+      }
+      if (shouldRetainDelta) {
         final dataLength = data is String ? data.length : 1;
         final retainDelta = Delta()
           ..retain(index)
