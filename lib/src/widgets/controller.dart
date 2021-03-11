@@ -72,7 +72,6 @@ class ZefyrController extends ChangeNotifier {
           delta.last.isInsert;
       if (shouldRetainDelta &&
           toggledStyles.isNotEmpty &&
-          delta.length == 2 &&
           delta.last.data == '\n') {
         // if all attributes are inline, shouldRetainDelta should be false
         final anyAttributeNotInline =
